@@ -19,16 +19,28 @@ public class Room {
     @Column(nullable = false)
     private double price;
 
+    @Column(nullable = false)
+    private int beds;
+
     public Room() {
     }
 
-    public Room(String type, double price) {
+    public Room(String type, double price, int beds) {
         this.type = type;
         this.price = price;
+        this.beds = beds;
     }
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reservation> reservations = new ArrayList<>();
+
+    public int getBeds() {
+        return beds;
+    }
+
+    public void setBeds(int beds) {
+        this.beds = beds;
+    }
 
     public Long getId() {
         return id;

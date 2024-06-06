@@ -40,9 +40,18 @@ public class Reservation {
         this.checkOutDate = checkOutDate;
     }
 
+    //Guest_ID, Room_ID, CheckIn_Date, CheckOut_Date,
+    //Breakfast_Option, Booking_Date
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, name = "breakfast_option")
+    private boolean breakfastOption;
+
+    @Column(nullable = false, name = "booking_date")
+    private LocalDate bookingDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
