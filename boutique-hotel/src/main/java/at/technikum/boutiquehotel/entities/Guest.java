@@ -2,6 +2,8 @@ package at.technikum.boutiquehotel.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Guest {
     @Id
@@ -16,5 +18,8 @@ public class Guest {
     private String email;
     @Column(nullable = false)
     private String phone;
+
+    @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Reservation> reservationList;
 
 }

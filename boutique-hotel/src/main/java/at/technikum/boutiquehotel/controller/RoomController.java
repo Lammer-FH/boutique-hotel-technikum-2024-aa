@@ -1,7 +1,10 @@
 package at.technikum.boutiquehotel.controller;
 
+import at.technikum.boutiquehotel.dto.RoomDTO;
 import at.technikum.boutiquehotel.entities.Room;
+import at.technikum.boutiquehotel.entities.RoomType;
 import at.technikum.boutiquehotel.services.RoomService;
+import at.technikum.boutiquehotel.services.RoomTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,9 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
+    @Autowired
+    private RoomTypeService roomTypeService;
+
     @GetMapping
     public List<Room> getAllRooms() {
         return roomService.getAllRooms();
@@ -27,7 +33,15 @@ public class RoomController {
     }
 
     @PostMapping
-    public Room createRoom(@RequestBody Room room) {
+    public Room createRoom(@RequestBody RoomDTO roomDto) {
+        Room room = new Room();
+        System.out.println(roomDto.getRoomTypeId());
+        System.out.println(roomDto.getPrice());
+        RoomType roomType = roomTypeService.findById(roomDto.getRoomTypeId());
+        room.setRoomType(roomType);
+        room.setPrice(roomDto.getPrice());
+        room.setBeds(roomDto.getBeds());
+        System.out.println(room.getRoomType().getType());
         return roomService.saveRoom(room);
     }
 
