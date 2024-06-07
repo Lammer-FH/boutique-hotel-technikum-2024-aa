@@ -26,10 +26,6 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
-    public List<Room> getRoomsByType(String type) {
-        return roomRepository.findByType(type);
-    }
-
     public List<Room> getRoomsByPrice(double maxPrice) {
         return roomRepository.findByPriceLessThanEqual(maxPrice);
     }
@@ -53,8 +49,10 @@ public class RoomService {
     public Room updateRoomDetails(Long roomId, Room updatedRoomDetails) {
         return roomRepository.findById(roomId)
                 .map(room -> {
-                    room.setType(updatedRoomDetails.getType());
                     room.setPrice(updatedRoomDetails.getPrice());
+                    room.setBeds(updatedRoomDetails.getBeds());
+                    room.setRoomExtras(updatedRoomDetails.getRoomExtras());
+                    room.setRoomType(updatedRoomDetails.getRoomType());
                     return roomRepository.save(room);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Room not found with id: " + roomId));

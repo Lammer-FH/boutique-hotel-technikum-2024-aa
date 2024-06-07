@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    List<Room> findByType(String type);
     List<Room> findByPriceLessThanEqual(double maxPrice);
 }
