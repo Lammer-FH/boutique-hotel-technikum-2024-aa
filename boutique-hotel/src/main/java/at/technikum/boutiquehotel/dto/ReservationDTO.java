@@ -1,7 +1,6 @@
 package at.technikum.boutiquehotel.dto;
 
 import lombok.Data;
-import lombok.Value;
 
 import java.time.LocalDate;
 

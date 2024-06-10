@@ -1,8 +1,6 @@
 package at.technikum.boutiquehotel.controller;
 
-import at.technikum.boutiquehotel.dto.GuestDTO;
 import at.technikum.boutiquehotel.entities.Guest;
-import at.technikum.boutiquehotel.repository.GuestRepository;
 import at.technikum.boutiquehotel.services.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
