@@ -57,4 +57,9 @@ public class RoomService {
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Room not found with id: " + roomId));
     }
+
+    public List<Room> getPaginatedRooms(int page, List<Room> availableRooms) {
+        return availableRooms.stream().limit(page*5).collect(Collectors.toList());
+    }
+
 }

@@ -35,13 +35,10 @@ public class RoomController {
     @PostMapping
     public Room createRoom(@RequestBody RoomDTO roomDto) {
         Room room = new Room();
-        System.out.println(roomDto.getRoomTypeId());
-        System.out.println(roomDto.getPrice());
         RoomType roomType = roomTypeService.findById(roomDto.getRoomTypeId());
         room.setRoomType(roomType);
         room.setPrice(roomDto.getPrice());
         room.setBeds(roomDto.getBeds());
-        System.out.println(room.getRoomType().getType());
         return roomService.saveRoom(room);
     }
 
@@ -52,7 +49,8 @@ public class RoomController {
     }
 
     @GetMapping("/available")
-    public List<Room> getAvailableRooms(@RequestParam String checkIn, @RequestParam String checkOut) {
-        return roomService.getAvailableRooms(checkIn, checkOut);
+    public List<Room> getAvailableRooms(@RequestParam String checkIn, @RequestParam String checkOut, @RequestParam int page) {
+        List<Room> availableRooms =  roomService.getAvailableRooms(checkIn, checkOut);
+        return roomService.getPaginatedRooms(page, availableRooms);
     }
 }
