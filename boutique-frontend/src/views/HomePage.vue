@@ -91,7 +91,7 @@
 import { defineComponent } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
 import HelloSpringWorld from '@/components/HelloSpringWorld.vue';
-import Header from '@/components/Header.vue'
+import Header from '@/components/Header.vue';
 
 export default defineComponent({
   name: 'HomePage',
