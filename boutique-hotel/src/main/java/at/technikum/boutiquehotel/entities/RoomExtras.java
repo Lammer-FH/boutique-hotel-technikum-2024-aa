@@ -19,6 +19,4 @@ public class RoomExtras {
     @JoinColumn(name = "extra_type_id", nullable = false)
     private ExtraType extraType;
 
-
-
 }
