@@ -8,7 +8,7 @@
                 <img :src="room.imageUrl" :alt="room.name" class="room-image" />
                 <ion-card-header>
                     <ion-card-title>{{ room.name }}</ion-card-title>
-                    <!-- <ion-card-subtitle>{{ room.price | currency }}</ion-card-subtitle> -->
+                    <ion-card-subtitle>{{ room.price }} €</ion-card-subtitle>
                 </ion-card-header>
                 <ion-card-content>
                     <p>{{ room.description }}</p>
@@ -16,7 +16,6 @@
                         <ion-icon :icon="wifiIcon" v-if="room.extras.includes('wifi')"></ion-icon>
                         <ion-icon :icon="tvIcon" v-if="room.extras.includes('tv')"></ion-icon>
                         <ion-icon :icon="acIcon" v-if="room.extras.includes('ac')"></ion-icon>
-                        <!-- Add more icons as needed -->
                     </div>
                 </ion-card-content>
             </ion-card>
@@ -34,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, computed } from 'vue';
 import {
     IonPage,
     IonHeader,
@@ -53,8 +52,8 @@ import {
     IonIcon
 } from '@ionic/vue';
 import { wifi, tv, snow } from 'ionicons/icons'; // Import the icons you need
-import { roomsData } from '../images/rooms/mockData.js';
 import Header from '@/components/Header.vue';
+import { useRoomsStore } from '@/store';
 
 
 export default defineComponent({
@@ -78,26 +77,15 @@ export default defineComponent({
         Header
     },
     setup() {
-        const rooms = ref([]);
-        const roomsData = [
-            {
-                id: 1,
-                name: 'Deluxe Suite',
-                imageUrl: 'src\images\rooms\room1.jpg',
-                description: 'Luxurious suite with breathtaking views',
-                price: 200,
-                extras: ['wifi', 'tv', 'ac']
-            },
-            {
-                id: 2,
-                name: 'Standard Room',
-                imageUrl: 'src\images\rooms\room1.jpg',
-                description: 'Comfortable room with all basic amenities',
-                price: 100,
-                extras: ['wifi']
-            },
-            // Add more room objects as needed
-        ];
+        const roomsStore = useRoomsStore();
+
+        // Fetch rooms data when component is mounted
+        roomsStore.fetchRooms();
+        
+        // Use computed property to access rooms data from store
+        const rooms = computed(() => roomsStore.rooms);
+
+
         const page = ref(1);
         const pageSize = 5;
 
@@ -106,30 +94,22 @@ export default defineComponent({
         const tvIcon = tv;
         const acIcon = snow;
 
-        async function fetchRooms() {
-            try {
-                const response = await fetch(`https://api.example.com/rooms?page=${page.value}&pageSize=${pageSize}`);
-                const data = await response.json();
-                rooms.value = data.rooms;
-            } catch (error) {
-                console.error('Error fetching rooms:', error);
-            }
-        }
+        
 
         function loadNextPage() {
             page.value++;
-            fetchRooms();
+            // fetchRooms();
         }
 
         function loadPreviousPage() {
             if (page.value > 1) {
                 page.value--;
-                fetchRooms();
+                // fetchRooms();
             }
         }
 
         onMounted(() => {
-            fetchRooms();
+            // fetchRooms();
         });
 
         return {
