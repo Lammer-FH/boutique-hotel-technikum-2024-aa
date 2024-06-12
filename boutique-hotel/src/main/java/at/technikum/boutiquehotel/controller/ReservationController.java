@@ -1,7 +1,10 @@
 package at.technikum.boutiquehotel.controller;
 
 import at.technikum.boutiquehotel.dto.ReservationDTO;
+import at.technikum.boutiquehotel.entities.Guest;
 import at.technikum.boutiquehotel.entities.Reservation;
+import at.technikum.boutiquehotel.entities.Room;
+import at.technikum.boutiquehotel.entities.RoomExtras;
 import at.technikum.boutiquehotel.services.GuestService;
 import at.technikum.boutiquehotel.services.ReservationService;
 import at.technikum.boutiquehotel.services.RoomService;
@@ -34,6 +37,26 @@ public class ReservationController {
         List<ReservationDTO> reservationDTOs = new ArrayList<>();
         reservations.forEach((reservation) -> reservationDTOs.add(mapToDTO(reservation)));
         return reservationDTOs;
+    }
+
+    @GetMapping
+    private ReservationConfirmationDTO getReservationConfirmationByReservationId(@RequestParam long reservationId) {
+        ReservationConfirmationDTO reservationConfirmationDTO = new ReservationConfirmationDTO();
+
+        // get all relevant details for the confirmation page from the services
+        Reservation reservation = reservationService.findById(reservationId);
+        Guest guest = reservation.getGuest();
+        Room room = reservation.getRoom();
+
+        reservationConfirmationDTO.setBeds(room.getBeds());
+        reservationConfirmationDTO.setExtras(room.getRoomExtras().stream().map(RoomExtras::getExtraType).toList());
+        reservationConfirmationDTO.setRoomType(room.getRoomType());
+        reservationConfirmationDTO.setGuest(guest);
+        reservationConfirmationDTO.setPrice(room.getPrice());
+        reservationConfirmationDTO.setBreakfastOption(reservation.isBreakfastOption());
+        reservationConfirmationDTO.setCheckInDate(reservation.getCheckInDate());
+        reservationConfirmationDTO.setCheckOutDate(reservation.getCheckOutDate());
+        return reservationConfirmationDTO;
     }
 
     // mapping methods
