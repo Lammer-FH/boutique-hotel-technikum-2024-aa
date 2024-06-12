@@ -2,89 +2,46 @@
   <ion-app>
     <ion-split-pane content-id="main-content">
       <ion-menu content-id="main-content" type="overlay">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Boutique Hotel</ion-title>
+          </ion-toolbar>
+        </ion-header>
         <ion-content>
           <ion-list id="inbox-list">
             <ion-list-header>Boutique Hotel</ion-list-header>
             <ion-note>Welcome to the boutique hotel</ion-note>
-            
             <ion-menu-toggle :auto-hide="false" v-for="(p, i) in appPages" :key="i">
-              <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
-                <ion-icon aria-hidden="true" slot="start" :ios="p.iosIcon" :md="p.mdIcon"></ion-icon>
+              <ion-item @click="selectedIndex = i" :router-link="p.url" router-direction="root" lines="none" :detail="false" :class="{ selected: selectedIndex === i }">
+                <ion-icon :ios="p.iosIcon" :md="p.mdIcon" slot="start"></ion-icon>
                 <ion-label>{{ p.title }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
         </ion-content>
       </ion-menu>
+
       <ion-router-outlet id="main-content"></ion-router-outlet>
     </ion-split-pane>
   </ion-app>
 </template>
 
 <script setup lang="ts">
-import {
-  IonApp,
-  IonContent,
-  IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonListHeader,
-  IonMenu,
-  IonMenuToggle,
-  IonNote,
-  IonRouterOutlet,
-  IonSplitPane,
-} from '@ionic/vue';
 import { ref } from 'vue';
-import {
-  bed,
-  call,
-  home,
-  informationCircle,
-  paperPlaneOutline,
-  paperPlaneSharp,
-  trashOutline,
-} from 'ionicons/icons';
+import { IonApp, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane, IonTitle, IonToolbar } from '@ionic/vue';
+import { bed, call, home, informationCircle } from 'ionicons/icons';
 
 const selectedIndex = ref(0);
 const appPages = [
-  {
-    title: 'Home',
-    url: '/home',
-    iosIcon: home,
-    mdIcon: home,
-  },
-  {
-    title: 'Outbox',
-    url: '/outbox',
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp,
-  },
-  {
-    title: 'Rooms',
-    url: '/rooms',
-    iosIcon: bed,
-    mdIcon: bed,
-  },
-  {
-    title: 'About',
-    url: '/about',
-    iosIcon: informationCircle,
-    mdIcon: informationCircle,
-  },
-  {
-    title: 'Impressum',
-    url: '/impressum',
-    iosIcon: call,
-    mdIcon: call,
-  },
+  { title: 'Home', url: '/home', iosIcon: home, mdIcon: home },
+  { title: 'Rooms', url: '/rooms', iosIcon: bed, mdIcon: bed },
+  { title: 'About', url: '/about', iosIcon: informationCircle, mdIcon: informationCircle },
+  { title: 'Impressum', url: '/impressum', iosIcon: call, mdIcon: call }
 ];
-const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
 const path = window.location.pathname.split('folder/')[1];
 if (path !== undefined) {
-  selectedIndex.value = appPages.findIndex((page) => page.title.toLowerCase() === path.toLowerCase());
+  selectedIndex.value = appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
 }
 </script>
 
@@ -120,17 +77,13 @@ ion-menu.md ion-list#inbox-list {
 ion-menu.md ion-list#inbox-list ion-list-header {
   font-size: 22px;
   font-weight: 600;
-
   min-height: 20px;
 }
 
 ion-menu.md ion-list#labels-list ion-list-header {
   font-size: 16px;
-
   margin-bottom: 18px;
-
   color: #757575;
-
   min-height: 26px;
 }
 
@@ -201,7 +154,6 @@ ion-menu.ios ion-note {
 ion-note {
   display: inline-block;
   font-size: 16px;
-
   color: var(--ion-color-medium-shade);
 }
 

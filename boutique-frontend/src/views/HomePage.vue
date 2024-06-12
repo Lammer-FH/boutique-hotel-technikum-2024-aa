@@ -1,9 +1,7 @@
 <!-- Home.vue -->
 <template>
   <ion-page>
-    <ion-header>
-      <Header title="Home" />
-    </ion-header>
+    <Header title="Home"/>
     <ion-content>
       <div class="landing-page">
         <section class="hero">
