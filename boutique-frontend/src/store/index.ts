@@ -1,15 +1,19 @@
-// stores/counter.js
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
-export const useCounterStore = defineStore('counter', {
-  state: () => {
-    return { count: 0 }
-  },
-  // could also be defined as
-  // state: () => ({ count: 0 })
+export const useRoomsStore = defineStore('rooms', {
+  state: () => ({
+    rooms: []
+  }),
   actions: {
-    increment() {
-      this.count++
-    },
-  },
-})
+    async fetchRooms() {
+      try {
+        const response = await fetch('http://localhost:5245/WeatherForecast/Rooms');
+        const data = await response.json();
+        console.error("Store received:" + data[0].imageUrl);
+        this.rooms = data;
+      } catch (error) {
+        console.error('Error fetching rooms:', error);
+      }
+    }
+  }
+});
