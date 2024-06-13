@@ -1,6 +1,8 @@
 package at.technikum.boutiquehotel.services;
 
+import at.technikum.boutiquehotel.dto.RoomDTO;
 import at.technikum.boutiquehotel.entities.Room;
+import at.technikum.boutiquehotel.entities.RoomExtras;
 import at.technikum.boutiquehotel.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,10 +36,27 @@ public class RoomService {
         roomRepository.deleteById(id);
     }
 
-    public List<Room> getAvailableRooms(String checkIn, String checkOut) {
+    public List<RoomDTO> getAvailableRooms(String checkIn, String checkOut) {
         return roomRepository.findAll().stream()
-                .filter(room -> room.isAvailable(checkIn, checkOut))
+                .filter(room -> room.isAvailable(checkIn, checkOut)).
+                map(this::mapToDTO)
                 .collect(Collectors.toList());
+    }
+
+    private RoomDTO mapToDTO(Room eachRoom) {
+        RoomDTO dto = new RoomDTO();
+        dto.setId(eachRoom.getId());
+        dto.setBeds(eachRoom.getBeds());
+        dto.setPrice(eachRoom.getPrice());
+        dto.setRoomExtras(
+                eachRoom.getRoomExtras().stream()
+                .map(RoomExtras::getExtraType)
+                .collect(Collectors.toList())
+        );
+        dto.setDescription(eachRoom.getRoomType().getDescription());
+        dto.setTypeName(eachRoom.getRoomType().getType());
+        dto.setImageUrl(eachRoom.getRoomType().getImagePath());
+        return dto;
     }
 
     public boolean checkAvailability(Long roomId, String checkInDate, String checkOutDate) {
@@ -58,8 +77,11 @@ public class RoomService {
                 .orElseThrow(() -> new IllegalArgumentException("Room not found with id: " + roomId));
     }
 
-    public List<Room> getPaginatedRooms(int page, List<Room> availableRooms) {
-        return availableRooms.stream().limit(page*5).collect(Collectors.toList());
+    public List<RoomDTO> getPaginatedRooms(int page, List<RoomDTO> availableRooms) {
+        int pageSize = 5;
+        int startIndex = (page-1) * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, availableRooms.size());
+        return availableRooms.subList(startIndex, endIndex);
     }
 
 }

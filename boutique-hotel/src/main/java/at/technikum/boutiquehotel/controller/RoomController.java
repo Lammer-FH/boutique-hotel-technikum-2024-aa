@@ -15,11 +15,14 @@ import java.util.List;
 @RequestMapping("/api/rooms")
 public class RoomController {
 
-    @Autowired
-    private RoomService roomService;
+    private final RoomService roomService;
+    private final RoomTypeService roomTypeService;
 
     @Autowired
-    private RoomTypeService roomTypeService;
+    public RoomController(RoomService roomService, RoomTypeService roomTypeService) {
+        this.roomService = roomService;
+        this.roomTypeService = roomTypeService;
+    }
 
     @GetMapping
     public List<Room> getAllRooms() {
@@ -32,16 +35,6 @@ public class RoomController {
         return room != null ? ResponseEntity.ok(room) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping
-    public Room createRoom(@RequestBody RoomDTO roomDto) {
-        Room room = new Room();
-        RoomType roomType = roomTypeService.findById(roomDto.getRoomTypeId());
-        room.setRoomType(roomType);
-        room.setPrice(roomDto.getPrice());
-        room.setBeds(roomDto.getBeds());
-        return roomService.saveRoom(room);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
         roomService.deleteRoom(id);
@@ -49,8 +42,9 @@ public class RoomController {
     }
 
     @GetMapping("/available")
-    public List<Room> getAvailableRooms(@RequestParam String checkIn, @RequestParam String checkOut, @RequestParam int page) {
-        List<Room> availableRooms =  roomService.getAvailableRooms(checkIn, checkOut);
-        return roomService.getPaginatedRooms(page, availableRooms);
+    public ResponseEntity<List<RoomDTO>> getAvailableRooms(@RequestParam String checkIn, @RequestParam String checkOut, @RequestParam int page) {
+        List<RoomDTO> availableRooms =  roomService.getAvailableRooms(checkIn, checkOut);
+        return ResponseEntity.ok(roomService.getPaginatedRooms(page, availableRooms));
     }
+
 }

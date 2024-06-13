@@ -1,4 +1,4 @@
-package at.technikum.boutiquehotel.controller;
+package at.technikum.boutiquehotel.dto;
 
 import at.technikum.boutiquehotel.entities.ExtraType;
 import at.technikum.boutiquehotel.entities.Guest;
