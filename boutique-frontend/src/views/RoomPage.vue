@@ -54,6 +54,7 @@ import {
 import { wifi, tv, snow } from 'ionicons/icons'; // Import the icons you need
 import Header from '@/components/Header.vue';
 import { useRoomsStore } from '@/store';
+import { Room } from '@/models/room.ts';
 
 
 export default defineComponent({
@@ -77,13 +78,15 @@ export default defineComponent({
         Header
     },
     setup() {
+        console.log('SETUP ROOMS');
+
         const roomsStore = useRoomsStore();
 
         // Fetch rooms data when component is mounted
         roomsStore.fetchRooms();
         
         // Use computed property to access rooms data from store
-        const rooms = computed(() => roomsStore.rooms);
+        const rooms = computed(() => roomsStore.rooms as Room[]);
 
 
         const page = ref(1);
@@ -98,10 +101,13 @@ export default defineComponent({
 
         function loadNextPage() {
             page.value++;
+            console.error("Test error Room");
             // fetchRooms();
         }
 
         function loadPreviousPage() {
+            console.error("Test error Room");
+
             if (page.value > 1) {
                 page.value--;
                 // fetchRooms();
