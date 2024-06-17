@@ -43,7 +43,7 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
-    private RoomDTO mapToDTO(Room eachRoom) {
+    public RoomDTO mapToDTO(Room eachRoom) {
         RoomDTO dto = new RoomDTO();
         dto.setId(eachRoom.getId());
         dto.setBeds(eachRoom.getBeds());
@@ -77,11 +77,11 @@ public class RoomService {
                 .orElseThrow(() -> new IllegalArgumentException("Room not found with id: " + roomId));
     }
 
-    public List<RoomDTO> getPaginatedRooms(int page, List<RoomDTO> availableRooms) {
+    public List<RoomDTO> getPaginatedRooms(int page, List<RoomDTO> rooms) {
         int pageSize = 5;
         int startIndex = (page-1) * pageSize;
-        int endIndex = Math.min(startIndex + pageSize, availableRooms.size());
-        return availableRooms.subList(startIndex, endIndex);
+        int endIndex = Math.min(startIndex + pageSize, rooms.size());
+        return rooms.subList(startIndex, endIndex);
     }
 
 }

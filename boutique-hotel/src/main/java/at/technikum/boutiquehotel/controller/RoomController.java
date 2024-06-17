@@ -9,30 +9,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/rooms")
 public class RoomController {
 
     private final RoomService roomService;
-    private final RoomTypeService roomTypeService;
 
     @Autowired
-    public RoomController(RoomService roomService, RoomTypeService roomTypeService) {
+    public RoomController(RoomService roomService) {
         this.roomService = roomService;
-        this.roomTypeService = roomTypeService;
     }
 
     @GetMapping
-    public List<Room> getAllRooms() {
-        return roomService.getAllRooms();
+    public ResponseEntity<List<RoomDTO>> getAllRooms(@PathVariable int page) {
+        List<Room> rooms = roomService.getAllRooms();
+        // map room list to roomDto list
+        List<RoomDTO> roomDtos = rooms.stream()
+                .map(roomService::mapToDTO)
+                .toList();
+        return ResponseEntity.ok(roomService.getPaginatedRooms(page,roomDtos));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
+    public ResponseEntity<RoomDTO> getRoomById(@PathVariable Long id) {
         Room room = roomService.getRoomById(id);
-        return room != null ? ResponseEntity.ok(room) : ResponseEntity.notFound().build();
+        return room != null ? ResponseEntity.ok(roomService.mapToDTO(room)) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
@@ -43,8 +48,9 @@ public class RoomController {
 
     @GetMapping("/available")
     public ResponseEntity<List<RoomDTO>> getAvailableRooms(@RequestParam String checkIn, @RequestParam String checkOut, @RequestParam int page) {
-        List<RoomDTO> availableRooms =  roomService.getAvailableRooms(checkIn, checkOut);
-        return ResponseEntity.ok(roomService.getPaginatedRooms(page, availableRooms));
+        List<RoomDTO> availableRooms = roomService.getAvailableRooms(checkIn, checkOut);
+        List<RoomDTO> paginatedRoomDTOs = roomService.getPaginatedRooms(page, availableRooms);
+        return ResponseEntity.ok(paginatedRoomDTOs);
     }
 
 }
