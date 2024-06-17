@@ -53,7 +53,7 @@
         </ion-card-header>
         <ion-card-content>
           <p>{{ locationDescription }}</p>
-          <iframe :src="locationMapUrl" width="100%" height="450" style="border:0;" allowfullscreen=""
+          <iframe :src="locationMapUrl" width="100%" height="450" style="border:0;"
             loading="lazy"></iframe>
         </ion-card-content>
       </ion-card>
@@ -79,6 +79,7 @@ export default defineComponent({
     Header
   },
   data() {
+    console.log('SETUP ROOMS');
     return {
       hotelName: 'Boutique Bliss',
       introduction: 'Nestled in the heart of the city, Boutique Bliss offers a unique blend of modern luxury and historic charm. Established in 2020, our hotel has become a beloved destination for travelers seeking a distinctive and memorable experience.',

@@ -12,20 +12,21 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@capacitor/android": "6.0.0",
+    "@capacitor/android": "^6.0.0",
     "@capacitor/app": "6.0.0",
-    "@capacitor/core": "6.0.0",
+    "@capacitor/core": "^6.0.0",
     "@capacitor/haptics": "6.0.0",
     "@capacitor/keyboard": "6.0.0",
     "@capacitor/status-bar": "6.0.0",
     "@ionic/vue": "^8.0.0",
     "@ionic/vue-router": "^8.0.0",
+    "axios": "^1.7.2",
     "ionicons": "^7.0.0",
     "pinia": "^2.1.7",
     "vue-router": "^4.2.0"
   },
   "devDependencies": {
-    "@capacitor/cli": "6.0.0",
+    "@capacitor/cli": "^6.0.0",
     "@types/vue": "^2.0.0",
     "@vitejs/plugin-legacy": "^5.0.0",
     "@vitejs/plugin-vue": "^4.0.0",
@@ -35,6 +36,7 @@
     "cypress": "^13.5.0",
     "eslint": "^8.35.0",
     "eslint-plugin-vue": "^9.9.0",
+    "http-proxy-middleware": "^3.0.0",
     "jsdom": "^22.1.0",
     "terser": "^5.4.0",
     "typescript": "^5.1.6",
