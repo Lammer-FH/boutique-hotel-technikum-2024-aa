@@ -19,6 +19,39 @@
             </ion-row>
         </ion-grid>
         <ion-button expand="block" @click="checkAvailability">Check Availability</ion-button>
+        <div v-if="isRoomAvailable">
+            <ion-row>
+                <ion-col size="12" size-md="6">
+                    <ion-item lines="none">
+                        <ion-input v-model="firstName" label="First Name: " placeholder="Enter first name"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="12" size-md="6">
+                    <ion-item lines="none">
+                        <ion-input v-model="lastName" label="Last Name: " placeholder="Enter last name"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="12" size-md="6">
+                    <ion-item lines="none">
+                        <ion-input v-model="email" label="Email: " placeholder="Enter email" type="email"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="12" size-md="6">
+                    <ion-item lines="none">
+                        <ion-input v-model="confirmEmail" label="Confirm Email: "
+                            placeholder="Enter email again"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="12" size-md="6">
+                    <ion-item lines="none">
+                        <ion-checkbox v-model="includeBreakfast"></ion-checkbox>
+                        <ion-label>I want breakfast</ion-label>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-button :disabled="!isRoomAvailable" expand="block" @click="handleRoomBooking">Book Room</ion-button>
+        </div>
     </div>
 </template>
 
@@ -26,7 +59,7 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { IonGrid, IonRow, IonCol, IonItem, IonLabel, IonDatetime, IonButton, IonInput, IonCheckbox } from '@ionic/vue';
-import { checkRoomAvailability, handleError } from '../helpers/api';
+import { checkRoomAvailability, bookRoom, handleError } from '../helpers/api';
 
 export default defineComponent({
     name: 'DateRangePicker',
@@ -43,6 +76,14 @@ export default defineComponent({
         IonCheckbox
     },
     setup(props) {
+        // form
+        const isRoomAvailable = ref(false);
+        const firstName = ref('');
+        const lastName = ref('');
+        const email = ref('');
+        const confirmEmail = ref('');
+        const includeBreakfast = ref(false);
+
         // datepicker
         const today = new Date().toISOString().split('T')[0];
         const tomorrow = new Date(today);
@@ -70,6 +111,22 @@ export default defineComponent({
             }
         };
 
+        const handleRoomBooking = () => {
+            const bookingDetails = {
+                firstName: firstName.value,
+                lastName: lastName.value,
+                email: email.value,
+                confirmEmail: confirmEmail.value,
+                includeBreakfast: includeBreakfast.value,
+                startDate: startDate.value,
+                endDate: endDate.value,
+            };
+            bookRoom(props.id, bookingDetails)
+                .then(() => {
+                })
+                .catch(handleError);
+        };
+
         return {
             startDate,
             endDate,
@@ -77,6 +134,12 @@ export default defineComponent({
             maxDate,
             isRoomAvailable,
             checkAvailability,
+            handleRoomBooking,
+            firstName,
+            lastName,
+            email,
+            confirmEmail,
+            includeBreakfast,
         };
     }
 });
