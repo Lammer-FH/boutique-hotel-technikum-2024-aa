@@ -78,7 +78,7 @@
                   <ion-label>info@boutiquehotel.com</ion-label>
                 </ion-item>
               </ion-list>
-              <ion-button expand="block" router-link="/contact">Get in Touch</ion-button>
+              <ion-button expand="block" router-link="/about">Get in Touch</ion-button>
             </ion-card-content>
           </ion-card>
         </section>
@@ -89,7 +89,7 @@
 
 <script>
 import { defineComponent } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
 import HelloSpringWorld from '@/components/HelloSpringWorld.vue';
 import Header from '@/components/Header.vue';
 
@@ -101,6 +101,7 @@ export default defineComponent({
     IonToolbar,
     IonTitle,
     IonContent,
+    IonButton,
     HelloSpringWorld,
     Header
   }
