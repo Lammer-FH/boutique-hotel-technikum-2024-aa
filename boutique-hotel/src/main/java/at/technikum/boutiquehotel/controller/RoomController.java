@@ -25,7 +25,7 @@ public class RoomController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RoomDTO>> getAllRooms(@PathVariable int page) {
+    public ResponseEntity<List<RoomDTO>> getAllRooms(@RequestParam int page) {
         List<Room> rooms = roomService.getAllRooms();
         // map room list to roomDto list
         List<RoomDTO> roomDtos = rooms.stream()
