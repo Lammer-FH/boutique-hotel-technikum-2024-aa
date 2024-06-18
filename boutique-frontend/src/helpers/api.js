@@ -7,6 +7,10 @@ export const checkRoomAvailability = (roomId, dateRange) => {
     return axios.post(`${apiBaseUrl}/Room/available/${roomId}`, dateRange);
 };
 
+export const bookRoom = (roomId, bookingDetails) => {
+    return axios.post(`${apiBaseUrl}/Room/book/${roomId}`, bookingDetails);
+};
+
 export const getRooms = () => {
     return axios.get(`${apiBaseUrl}/Rooms`);
 };
