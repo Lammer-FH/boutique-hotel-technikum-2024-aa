@@ -12,6 +12,7 @@
                 </ion-card-header>
                 <ion-card-content>
                     <p>{{ room.description }}</p>
+                    <ion-button expand="block" :router-link="`/room/${room.id}`">Check availability</ion-button>
                     <div class="room-extras">
                         <ion-icon :icon="wifiIcon" v-if="room.extras.includes('wifi')"></ion-icon>
                         <ion-icon :icon="tvIcon" v-if="room.extras.includes('tv')"></ion-icon>
@@ -56,9 +57,8 @@ import Header from '@/components/Header.vue';
 import { useRoomsStore } from '@/store';
 import { Room } from '@/models/room.ts';
 
-
 export default defineComponent({
-    name: 'Rooms',
+    name: 'RoomPage',
     components: {
         IonPage,
         IonHeader,

@@ -12,7 +12,7 @@
 
 <script setup>
 import { defineProps } from 'vue';
-import { IonHeader, IonToolbar, IonTitle } from '@ionic/vue';
+import { IonHeader, IonToolbar, IonTitle, IonMenuButton } from '@ionic/vue';
 
 const props = defineProps({
   title: {
