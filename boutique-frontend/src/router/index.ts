@@ -34,6 +34,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'RoomDetail',
     component: RoomDetailPage,
     props: true
+  },
+  {
+      path: '/booking-success/:firstName/:lastName/:email/:confirmEmail/:includeBreakfast/:startDate/:endDate',
+      name: 'BookingSuccess',
+      component: BookingSuccessPage,
+      props: true
   }
 ]
 

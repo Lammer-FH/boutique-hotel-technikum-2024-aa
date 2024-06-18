@@ -123,6 +123,10 @@ export default defineComponent({
             };
             bookRoom(props.id, bookingDetails)
                 .then(() => {
+                    const queryString = `/${encodeURIComponent(firstName.value)}/${encodeURIComponent(lastName.value)}/${encodeURIComponent(email.value)}/${encodeURIComponent(confirmEmail.value)}/${encodeURIComponent(includeBreakfast.value)}/${encodeURIComponent(startDate.value)}/${encodeURIComponent(endDate.value)}`;
+                    console.log(queryString);
+                    // Navigate to booking success page with query parameters
+                    router.push({ path: `/booking-success${queryString}` });
                 })
                 .catch(handleError);
         };
