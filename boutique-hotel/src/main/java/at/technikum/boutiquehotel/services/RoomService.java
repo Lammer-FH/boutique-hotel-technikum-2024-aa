@@ -48,9 +48,9 @@ public class RoomService {
         dto.setId(eachRoom.getId());
         dto.setBeds(eachRoom.getBeds());
         dto.setPrice(eachRoom.getPrice());
-        dto.setRoomExtras(
+        dto.setExtras(
                 eachRoom.getRoomExtras().stream()
-                .map(RoomExtras::getExtraType)
+                .map(eachExtra -> eachExtra.getExtraType().getTitle())
                 .collect(Collectors.toList())
         );
         dto.setDescription(eachRoom.getRoomType().getDescription());
@@ -59,7 +59,7 @@ public class RoomService {
         return dto;
     }
 
-    public boolean checkAvailability(Long roomId, String checkInDate, String checkOutDate) {
+    public boolean isAvailable(Long roomId, String checkInDate, String checkOutDate) {
         return roomRepository.findById(roomId)
                 .map(room -> room.isAvailable(checkInDate, checkOutDate))
                 .orElseThrow(() -> new IllegalArgumentException("Room not found with id: " + roomId));

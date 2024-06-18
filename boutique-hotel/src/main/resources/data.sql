@@ -21,8 +21,32 @@ VALUES
 INSERT INTO
     extra_type(description, title)
 VALUES
-    ('Wifi', 'Free wifi for unlimited use.'),
-    ('TV', 'Smart TV with internet access'),
-    ('Minibar', 'Minibar with cold alcoholic and non-alcoholic drinks');
+    ('Free wifi for unlimited use.','wifi'),
+    ('Smart TV with internet access', 'tv'),
+    ('AC','ac');
+
+INSERT INTO
+    room_extras(room_id, extra_type_id)
+VALUES
+    (1, 1), -- Room 1 has Wifi
+    (1, 2), -- Room 1 has TV
+    (2, 1), -- Room 2 has Wifi
+    (2, 3), -- Room 2 has Minibar
+    (3, 2), -- Room 3 has TV
+    (3, 3), -- Room 3 has Minibar
+    (4, 1), -- Room 4 has Wifi
+    (4, 2), -- Room 4 has TV
+    (5, 1), -- Room 5 has Wifi
+    (5, 2), -- Room 5 has TV
+    (5, 3), -- Room 5 has Minibar
+    (6, 2), -- Room 6 has TV
+    (6, 3), -- Room 6 has Minibar
+    (7, 1), -- Room 7 has Wifi
+    (8, 2), -- Room 8 has TV
+    (9, 1), -- Room 9 has Wifi
+    (9, 3), -- Room 9 has Minibar
+    (10, 2), -- Room 10 has TV
+    (10, 3); -- Room 10 has Minibar
+
 
 

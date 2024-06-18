@@ -47,10 +47,9 @@ public class RoomController {
     }
 
     @GetMapping("/available")
-    public ResponseEntity<List<RoomDTO>> getAvailableRooms(@RequestParam String checkIn, @RequestParam String checkOut, @RequestParam int page) {
-        List<RoomDTO> availableRooms = roomService.getAvailableRooms(checkIn, checkOut);
-        List<RoomDTO> paginatedRoomDTOs = roomService.getPaginatedRooms(page, availableRooms);
-        return ResponseEntity.ok(paginatedRoomDTOs);
+    public ResponseEntity<Boolean> getAvailableRooms(@RequestParam long roomId, @RequestParam String checkIn, @RequestParam String checkOut) {
+        Boolean isAvailable = roomService.isAvailable(roomId, checkIn, checkOut);
+        return ResponseEntity.ok(isAvailable);
     }
 
 }

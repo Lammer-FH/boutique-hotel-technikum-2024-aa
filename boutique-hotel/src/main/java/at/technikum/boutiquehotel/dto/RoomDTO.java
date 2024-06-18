@@ -14,5 +14,5 @@ public class RoomDTO {
     private double price;
     private int beds;
     // ExtraType has a title and description
-    private List<ExtraType> roomExtras;
+    private List<String> extras;
 }
