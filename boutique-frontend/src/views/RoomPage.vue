@@ -4,121 +4,140 @@
         <Header title="Room" />
         <ion-content>
 
-            <ion-card>
+            <ion-card v-for="room in rooms" :key="room.id" class="room-card">
+                <img :src="room.imageUrl" :alt="room.name" class="room-image" />
                 <ion-card-header>
-                    <ion-card-title>Legal Information</ion-card-title>
+                    <ion-card-title>{{ room.name }}</ion-card-title>
+                    <ion-card-subtitle>{{ room.price }} €</ion-card-subtitle>
                 </ion-card-header>
                 <ion-card-content>
-                    <p>{{ legalInfo }}</p>
+                    <p>{{ room.description }}</p>
+                    <div class="room-extras">
+                        <ion-icon :icon="wifiIcon" v-if="room.extras.includes('wifi')"></ion-icon>
+                        <ion-icon :icon="tvIcon" v-if="room.extras.includes('tv')"></ion-icon>
+                        <ion-icon :icon="acIcon" v-if="room.extras.includes('ac')"></ion-icon>
+                    </div>
                 </ion-card-content>
             </ion-card>
-
-            <ion-card>
-                <ion-card-header>
-                    <ion-card-title>Contact Information</ion-card-title>
-                </ion-card-header>
-                <ion-card-content>
-                    <p><strong>Hotel Name:</strong> {{ hotelName }}</p>
-                    <p><strong>Address:</strong> {{ address }}</p>
-                    <p><strong>Phone:</strong> {{ phone }}</p>
-                    <p><strong>Email:</strong> <a :href="`mailto:${email}`">{{ email }}</a></p>
-                </ion-card-content>
-            </ion-card>
-
-            <ion-card>
-                <ion-card-header>
-                    <ion-card-title>Managing Director</ion-card-title>
-                </ion-card-header>
-                <ion-card-content>
-                    <p>{{ managingDirector }}</p>
-                </ion-card-content>
-            </ion-card>
-
-            <ion-card>
-                <ion-card-header>
-                    <ion-card-title>Company Details</ion-card-title>
-                </ion-card-header>
-                <ion-card-content>
-                    <p><strong>Company Name:</strong> {{ companyName }}</p>
-                    <p><strong>Registration Number:</strong> {{ registrationNumber }}</p>
-                    <p><strong>VAT Number:</strong> {{ vatNumber }}</p>
-                </ion-card-content>
-            </ion-card>
-
-            <ion-card>
-                <ion-card-header>
-                    <ion-card-title>Disclaimer</ion-card-title>
-                </ion-card-header>
-                <ion-card-content>
-                    <p>{{ disclaimer }}</p>
-                </ion-card-content>
-            </ion-card>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-buttons slot="end">
+                        <ion-button @click="loadPreviousPage" :disabled="page === 1">Previous</ion-button>
+                        <ion-button @click="loadNextPage">Next</ion-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-footer>
 
         </ion-content>
     </ion-page>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+<script lang="ts">
+import { defineComponent, ref, onMounted, computed } from 'vue';
+import {
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonMenuButton,
+    IonTitle,
+    IonContent,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonCardContent,
+    IonFooter,
+    IonButton,
+    IonIcon
+} from '@ionic/vue';
+import { wifi, tv, snow } from 'ionicons/icons'; // Import the icons you need
 import Header from '@/components/Header.vue';
+import { useRoomsStore } from '@/store';
+
 
 export default defineComponent({
-    name: 'RoomPage',
+    name: 'Rooms',
     components: {
         IonPage,
         IonHeader,
         IonToolbar,
+        IonButtons,
+        IonMenuButton,
         IonTitle,
         IonContent,
+        IonCard,
+        IonCardHeader,
+        IonCardTitle,
+        IonCardSubtitle,
+        IonCardContent,
+        IonFooter,
+        IonButton,
+        IonIcon,
         Header
     },
-    data() {
-        return {
-            hotelName: 'Boutique Bliss',
-            address: '123 Boutique St, City, Country',
-            phone: '+123 456 7890',
-            email: 'info@boutiquebliss.com',
-            managingDirector: 'Jane Doe',
-            companyName: 'Boutique Bliss Ltd.',
-            registrationNumber: '123456789',
-            vatNumber: 'VAT123456789',
-            legalInfo: 'This is the legal information required for an Impressum. Please provide accurate and complete information as required by local laws and regulations.',
-            disclaimer: 'The content of this website has been created with the utmost care. However, we cannot guarantee the accuracy, completeness, or timeliness of the content. Any reliance you place on such information is therefore strictly at your own risk.'
+    setup() {
+        const roomsStore = useRoomsStore();
+
+        // Fetch rooms data when component is mounted
+        roomsStore.fetchRooms();
+        
+        // Use computed property to access rooms data from store
+        const rooms = computed(() => roomsStore.rooms);
+
+
+        const page = ref(1);
+        const pageSize = 5;
+
+        // Icons for room extras
+        const wifiIcon = wifi;
+        const tvIcon = tv;
+        const acIcon = snow;
+
+        
+
+        function loadNextPage() {
+            page.value++;
+            // fetchRooms();
         }
+
+        function loadPreviousPage() {
+            if (page.value > 1) {
+                page.value--;
+                // fetchRooms();
+            }
+        }
+
+        onMounted(() => {
+            // fetchRooms();
+        });
+
+        return {
+            rooms,
+            page,
+            wifiIcon,
+            tvIcon,
+            acIcon,
+            loadNextPage,
+            loadPreviousPage
+        };
     }
 });
 </script>
 
 <style scoped>
-ion-content {
-    --padding-start: 16px;
-    --padding-end: 16px;
-}
-
-ion-card {
+.room-card {
     margin-bottom: 20px;
 }
 
-ion-card-title {
-    font-size: 1.5em;
-    font-weight: bold;
+.room-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
-ion-card-content p {
-    font-size: 1em;
-    line-height: 1.6;
-}
-
-@media (min-width: 768px) {
-    ion-card-content p {
-        font-size: 1.1em;
-    }
-}
-
-@media (max-width: 767px) {
-    ion-card-content p {
-        font-size: 1em;
-    }
+.room-extras ion-icon {
+    font-size: 24px;
+    margin-right: 10px;
 }
 </style>
