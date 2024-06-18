@@ -11,7 +11,10 @@
                 <p>End Date: {{ endDate }}</p>
                 <p>Include Breakfast: {{ includeBreakfast ? 'Yes' : 'No' }}</p>
             </div>
-
+            <ion-card-content>
+                <p>Location description</p>
+                <iframe :src="locationMapUrl" width="100%" height="450" style="border:0;" loading="lazy"></iframe>
+            </ion-card-content>
         </ion-content>
     </ion-page>
 
@@ -52,7 +55,8 @@ export default defineComponent({
             email,
             includeBreakfast,
             startDate,
-            endDate
+            endDate,
+            locationMapUrl: 'https://www.google.com/maps/embed?...'
         };
     }
 });

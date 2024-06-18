@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const apiBaseUrl = "http://localhost:5245/WeatherForecast";
+// const apiBaseUrl = "http://localhost:5245/WeatherForecast";
+const apiBaseUrl = "http://10.0.2.2:5245/WeatherForecast";
 
 export const checkRoomAvailability = (roomId, dateRange) => {
     return axios.post(`${apiBaseUrl}/Room/available/${roomId}`, dateRange);
