@@ -6,10 +6,12 @@ import java.time.LocalDate;
 
 @Data
 public class ReservationDTO {
-    private Long guestId;
     private Long roomId;
-    private LocalDate bookingDate;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
-    private boolean breakfastOption;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String confirmEmail;
+    private String checkInDate;
+    private String checkOutDate;
+    private boolean includeBreakfast;
 }

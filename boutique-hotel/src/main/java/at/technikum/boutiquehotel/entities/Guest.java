@@ -25,4 +25,13 @@ public class Guest {
     @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reservation> reservationList;
 
+    public Guest(String firstName, String lastName, String email, String number) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = number;
+    }
+    public Guest() {
+
+    }
 }

@@ -47,7 +47,7 @@ public class RoomController {
     }
 
     @GetMapping("/available")
-    public ResponseEntity<Boolean> getAvailableRooms(@RequestParam long roomId, @RequestParam String checkIn, @RequestParam String checkOut) {
+    public ResponseEntity<Boolean> checkAvailability(@RequestParam long roomId, @RequestParam String checkIn, @RequestParam String checkOut) {
         Boolean isAvailable = roomService.isAvailable(roomId, checkIn, checkOut);
         return ResponseEntity.ok(isAvailable);
     }
