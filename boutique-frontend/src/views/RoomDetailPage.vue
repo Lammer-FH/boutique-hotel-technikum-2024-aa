@@ -63,5 +63,5 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-/* Add styles for your room page here */
+/* Add styles for your room page here */ 
 </style>

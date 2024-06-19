@@ -1,22 +1,22 @@
 import axios from 'axios';
 
-// const apiBaseUrl = "http://localhost:5245/WeatherForecast";
-const apiBaseUrl = "http://10.0.2.2:5245/WeatherForecast";
+const apiBaseUrl = "http://localhost:8080/api";
+// const apiBaseUrl = "http://10.0.2.2:8080/api";
 
-export const checkRoomAvailability = (roomId, dateRange) => {
-    return axios.post(`${apiBaseUrl}/Room/available/${roomId}`, dateRange);
+export const checkRoomAvailability = (roomId, checkIn, checkOut) => {
+    return axios.get(`${apiBaseUrl}/rooms/available?roomId=${roomId}&checkIn=${checkIn}&checkOut=${checkOut}`);
 };
 
-export const bookRoom = (roomId, bookingDetails) => {
-    return axios.post(`${apiBaseUrl}/Room/book/${roomId}`, bookingDetails);
+export const bookRoom = (bookingDetails) => {
+    return axios.post(`${apiBaseUrl}/reservation`, bookingDetails);
 };
 
-export const getRooms = () => {
-    return axios.get(`${apiBaseUrl}/Rooms`);
+export const getRooms = (page = 1) => {
+    return axios.get(`${apiBaseUrl}/rooms?page=${page}`);
 };
 
 export const getRoomById = (roomId) => {
-    return axios.get(`${apiBaseUrl}/Room/${roomId}`);
+    return axios.get(`${apiBaseUrl}/rooms/${roomId}`);
 };
 
 export const handleError = (error) => {

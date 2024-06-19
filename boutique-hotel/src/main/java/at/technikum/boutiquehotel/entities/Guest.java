@@ -1,9 +1,11 @@
 package at.technikum.boutiquehotel.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
-
+@Data
 @Entity
 public class Guest {
     @Id
@@ -19,6 +21,7 @@ public class Guest {
     @Column(nullable = false)
     private String phone;
 
+    @JsonBackReference // This will be ignored during serialization
     @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reservation> reservationList;
 

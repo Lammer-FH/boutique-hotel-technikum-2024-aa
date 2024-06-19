@@ -1,5 +1,6 @@
 package at.technikum.boutiquehotel.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class RoomType {
     @Column(nullable = false, name = "image_path")
     private String imagePath;
 
+    @JsonBackReference // This will be ignored during serialization
     @OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Room> rooms;
 

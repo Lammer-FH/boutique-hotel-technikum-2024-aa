@@ -97,12 +97,12 @@ export default defineComponent({
 
         const checkAvailability = () => {
             if (startDate.value && endDate.value) {
-                const selectedDateRange = {
-                    start: startDate.value,
-                    end: endDate.value
-                };
-                checkRoomAvailability(props.id, selectedDateRange)
+                console.log('start date and end date:')
+                console.log(startDate.value, endDate.value)
+                checkRoomAvailability(props.id, startDate.value, endDate.value)
                     .then(response => {
+                        console.log('available data: ')
+                        console.log(response.data)
                         isRoomAvailable.value = response.data;
                     })
                     .catch(handleError);
@@ -118,11 +118,20 @@ export default defineComponent({
                 email: email.value,
                 confirmEmail: confirmEmail.value,
                 includeBreakfast: includeBreakfast.value,
-                startDate: startDate.value,
-                endDate: endDate.value,
+                checkInDate: startDate.value,
+                checkOutDate: endDate.value,
+                roomId: props.id
             };
-            bookRoom(props.id, bookingDetails)
-                .then(() => {
+            console.log(startDate)
+            console.log(endDate)
+            bookRoom(bookingDetails)
+                .then((response) => {
+                    console.log(response.data)
+                    const extras = response.data.extras;
+                    const queryString = `/${encodeURIComponent(firstName.value)}/${encodeURIComponent(lastName.value)}/${encodeURIComponent(email.value)}/${encodeURIComponent(confirmEmail.value)}/${encodeURIComponent(includeBreakfast.value)}/${encodeURIComponent(startDate.value)}/${encodeURIComponent(endDate.value)}/${encodeURIComponent(extras)}/${encodeURIComponent(response.data.roomType)}/${encodeURIComponent(response.data.description)}/${encodeURIComponent(response.data.imageUrl)}`;
+                    console.log(queryString);
+                    // Navigate to booking success page with query parameters
+                    router.push({ path: `/booking-success${queryString}` });
                 })
                 .catch(handleError);
         };

@@ -1,5 +1,6 @@
 package at.technikum.boutiquehotel.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ public class ExtraType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long extraTypeId;
 
+    @JsonBackReference // This will be ignored during serialization
     @OneToMany(mappedBy = "extraType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RoomExtras> roomExtras;
 

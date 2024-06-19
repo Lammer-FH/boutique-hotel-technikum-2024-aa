@@ -9,40 +9,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/rooms")
 public class RoomController {
 
-    @Autowired
-    private RoomService roomService;
+    private final RoomService roomService;
 
     @Autowired
-    private RoomTypeService roomTypeService;
+    public RoomController(RoomService roomService) {
+        this.roomService = roomService;
+    }
 
     @GetMapping
-    public List<Room> getAllRooms() {
-        return roomService.getAllRooms();
+    public ResponseEntity<List<RoomDTO>> getAllRooms(@RequestParam int page) {
+        List<Room> rooms = roomService.getAllRooms();
+        // map room list to roomDto list
+        List<RoomDTO> roomDtos = rooms.stream()
+                .map(roomService::mapToDTO)
+                .toList();
+        return ResponseEntity.ok(roomService.getPaginatedRooms(page,roomDtos));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
+    public ResponseEntity<RoomDTO> getRoomById(@PathVariable Long id) {
         Room room = roomService.getRoomById(id);
-        return room != null ? ResponseEntity.ok(room) : ResponseEntity.notFound().build();
-    }
-
-    @PostMapping
-    public Room createRoom(@RequestBody RoomDTO roomDto) {
-        Room room = new Room();
-        System.out.println(roomDto.getRoomTypeId());
-        System.out.println(roomDto.getPrice());
-        RoomType roomType = roomTypeService.findById(roomDto.getRoomTypeId());
-        room.setRoomType(roomType);
-        room.setPrice(roomDto.getPrice());
-        room.setBeds(roomDto.getBeds());
-        System.out.println(room.getRoomType().getType());
-        return roomService.saveRoom(room);
+        return room != null ? ResponseEntity.ok(roomService.mapToDTO(room)) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
@@ -52,7 +47,9 @@ public class RoomController {
     }
 
     @GetMapping("/available")
-    public List<Room> getAvailableRooms(@RequestParam String checkIn, @RequestParam String checkOut) {
-        return roomService.getAvailableRooms(checkIn, checkOut);
+    public ResponseEntity<Boolean> getAvailableRooms(@RequestParam long roomId, @RequestParam String checkIn, @RequestParam String checkOut) {
+        Boolean isAvailable = roomService.isAvailable(roomId, checkIn, checkOut);
+        return ResponseEntity.ok(isAvailable);
     }
+
 }
