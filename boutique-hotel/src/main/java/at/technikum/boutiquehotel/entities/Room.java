@@ -1,5 +1,7 @@
 package at.technikum.boutiquehotel.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -9,6 +11,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "rooms")
+
 public class Room {
 
     @Id
@@ -17,6 +20,7 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "room_type_id")
+    @JsonManagedReference // This will be serialized
     private RoomType roomType;
 
     @Column(nullable = false)
@@ -25,9 +29,11 @@ public class Room {
     @Column(nullable = false)
     private int beds;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reservation> reservations = new ArrayList<>();
 
+    @JsonBackReference
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RoomExtras> roomExtras = new ArrayList<>();
 

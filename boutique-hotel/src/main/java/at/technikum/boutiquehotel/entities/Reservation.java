@@ -1,7 +1,9 @@
 package at.technikum.boutiquehotel.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.jmx.export.annotation.ManagedAttribute;
 
 import java.time.LocalDate;
 
@@ -20,10 +22,12 @@ public class Reservation {
     @Column(nullable = false, name = "booking_date")
     private LocalDate bookingDate;
 
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
 
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="guest_id")
     private Guest guest;
