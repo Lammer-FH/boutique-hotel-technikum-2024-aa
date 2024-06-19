@@ -3,7 +3,6 @@
     <ion-page>
         <Header title="Room" />
         <ion-content>
-
             <ion-card v-for="room in rooms" :key="room.id" class="room-card">
                 <img :src="room.imageUrl" :alt="room.name" class="room-image" />
                 <ion-card-header>
@@ -88,7 +87,6 @@ export default defineComponent({
         // Use computed property to access rooms data from store
         const rooms = computed(() => roomsStore.rooms as Room[]);
 
-
         const page = ref(1);
         const pageSize = 5;
 
@@ -96,8 +94,6 @@ export default defineComponent({
         const wifiIcon = wifi;
         const tvIcon = tv;
         const acIcon = snow;
-
-        
 
         function loadNextPage() {
             page.value++;

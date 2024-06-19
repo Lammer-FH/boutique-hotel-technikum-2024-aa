@@ -10,6 +10,9 @@
                 <p>Start Date: {{ startDate }}</p>
                 <p>End Date: {{ endDate }}</p>
                 <p>Include Breakfast: {{ includeBreakfast ? 'Yes' : 'No' }}</p>
+                <p>RoomType: {{ roomType }}</p>
+                <p>Description: {{ description }}</p>
+                <img :src="imageUrl" alt="Room Image" />
             </div>
             <ion-card-content>
                 <p>Location description</p>
@@ -48,6 +51,10 @@ export default defineComponent({
         const includeBreakfast = route.params.includeBreakfast == "true";
         const startDate = route.params.startDate;
         const endDate = route.params.endDate;
+        const extras = route.params.extras;
+        const roomType = route.params.roomType;
+        const description = route.params.description;
+        const imageUrl = route.params.imageUrl;
 
         return {
             firstName,
@@ -56,6 +63,10 @@ export default defineComponent({
             includeBreakfast,
             startDate,
             endDate,
+            extras,
+            roomType,
+            description,
+            imageUrl,
             locationMapUrl: 'https://www.google.com/maps/embed?...'
         };
     }

@@ -10,6 +10,7 @@ export const useRoomsStore = defineStore('rooms', {
     async fetchRooms() {
       getRooms()
         .then(response => {
+          console.log('fetchRooms called')
           console.log(response.data);
           this.rooms = response.data
         })
