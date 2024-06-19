@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const apiBaseUrl = "http://localhost:5245/WeatherForecast";
 const apiBaseUrl = "http://localhost:8080/api";
+// const apiBaseUrl = "http://10.0.2.2:8080/api";
 
 export const checkRoomAvailability = (roomId, checkIn, checkOut) => {
     return axios.get(`${apiBaseUrl}/rooms/available?roomId=${roomId}&checkIn=${checkIn}&checkOut=${checkOut}`);

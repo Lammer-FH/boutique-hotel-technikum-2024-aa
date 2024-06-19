@@ -23,7 +23,7 @@
                 <ion-toolbar>
                     <ion-buttons slot="end">
                         <ion-button @click="loadPreviousPage" :disabled="page === 1">Previous</ion-button>
-                        <ion-button @click="loadNextPage">Next</ion-button>
+                        <ion-button @click="loadNextPage" :disabled="page === totalPages">Next</ion-button>
                     </ion-buttons>
                 </ion-toolbar>
             </ion-footer>
@@ -77,18 +77,18 @@ export default defineComponent({
         Header
     },
     setup() {
-        console.log('SETUP ROOMS');
 
         const roomsStore = useRoomsStore();
 
+        const page = ref(1);
+
+        const totalPages = computed(() => roomsStore.totalPages);
+
         // Fetch rooms data when component is mounted
-        roomsStore.fetchRooms();
+        roomsStore.fetchRooms(page.value);
         
         // Use computed property to access rooms data from store
         const rooms = computed(() => roomsStore.rooms as Room[]);
-
-        const page = ref(1);
-        const pageSize = 5;
 
         // Icons for room extras
         const wifiIcon = wifi;
@@ -96,22 +96,22 @@ export default defineComponent({
         const acIcon = snow;
 
         function loadNextPage() {
-            page.value++;
-            console.error("Test error Room");
-            // fetchRooms();
-        }
-
-        function loadPreviousPage() {
-            console.error("Test error Room");
-
-            if (page.value > 1) {
-                page.value--;
-                // fetchRooms();
+        if (page.value < totalPages.value) {
+                page.value++;
+                roomsStore.fetchRooms(page.value);
             }
         }
 
+        function loadPreviousPage() {
+            if (page.value > 1) {
+                page.value--;
+                roomsStore.fetchRooms(page.value);
+            }
+        }
+
+
         onMounted(() => {
-            // fetchRooms();
+            roomsStore.fetchRooms(page.value);
         });
 
         return {
@@ -121,7 +121,8 @@ export default defineComponent({
             tvIcon,
             acIcon,
             loadNextPage,
-            loadPreviousPage
+            loadPreviousPage,
+            totalPages
         };
     }
 });
