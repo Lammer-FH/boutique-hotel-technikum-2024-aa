@@ -84,4 +84,7 @@ public class RoomService {
         return rooms.subList(startIndex, endIndex);
     }
 
+    public List<String> getExtrasList(List<RoomExtras> roomExtras) {
+        return roomExtras.stream().map(eachRoomExtra->eachRoomExtra.getExtraType().getTitle()).toList();
+    }
 }

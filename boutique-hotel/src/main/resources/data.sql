@@ -1,8 +1,8 @@
 INSERT INTO
     room_type(description, image_path, type)
 VALUES
-    ('Regular Room for the regular price', 'images/rooms/regular.jpg', 'Regular Room'),
-    ('Deluxe room with an astonishing view', 'images/rooms/deluxe.jpg', 'Deluxe Room');
+    ('Regular Room with balcony', '/images/rooms/regular.jpg', 'Regular Room'),
+    ('Deluxe room with an astonishing view and a big balcony', '/images/rooms/deluxe.jpg', 'Deluxe Room');
 
 INSERT INTO
     rooms(beds, price, room_type_id)

@@ -15,7 +15,9 @@ public class ReservationConfirmationDTO {
     private double price;
     private int beds;
     private boolean breakfastOption;
-    private RoomType roomType;
-    private List<ExtraType> extras;
+    private String roomType;
+    private String imageUrl;
+    private String description;
+    private List<String> extras;
     private Guest guest;
 }
